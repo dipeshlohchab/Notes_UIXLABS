@@ -3,6 +3,12 @@ import { listNotes, createNote, updateNote, deleteNote } from "./api";
 
 const EMPTY_NOTE = { id: null, title: "", body: "" };
 
+/**
+ * Formats an ISO date string into a localized human-readable date (e.g. "Oct 14, 2026").
+ *
+ * @param {string} iso - The ISO 8601 date timestamp.
+ * @returns {string} Formatted date string, or empty string if input is falsy.
+ */
 function formatDate(iso) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString(undefined, {
@@ -12,7 +18,14 @@ function formatDate(iso) {
   });
 }
 
-// Counts distinct search words appearing in title to visualize ranking rule
+/**
+ * Counts the number of distinct search words that appear in the note title.
+ * Used to visualize ranking relevance and badge displays.
+ *
+ * @param {string} title - The note's title.
+ * @param {string} query - The raw user search query string.
+ * @returns {number} The count of distinct matching words found in the title.
+ */
 function getTitleMatchCount(title, query) {
   if (!query.trim() || !title) return 0;
   const words = Array.from(new Set(query.toLowerCase().split(/\s+/).filter(Boolean)));
@@ -20,6 +33,9 @@ function getTitleMatchCount(title, query) {
   return words.filter((w) => lowerTitle.includes(w)).length;
 }
 
+/**
+ * Main application component managing notes list, active draft, search filtering, and CRUD operations.
+ */
 export default function App() {
   const [query, setQuery] = useState("");
   const [notes, setNotes] = useState([]);
@@ -54,8 +70,14 @@ export default function App() {
     };
   }, [query, version]);
 
+  /** Triggers a reload of notes by bumping the version dependency */
   const reload = () => setVersion((v) => v + 1);
 
+  /**
+   * Handles creating a new note or updating the current active note draft.
+   *
+   * @param {React.FormEvent} e - Form submission event.
+   */
   async function handleSave(e) {
     e.preventDefault();
     if (!draft.title.trim()) return;
@@ -76,6 +98,9 @@ export default function App() {
     }
   }
 
+  /**
+   * Prompts the user for confirmation and deletes the currently selected note.
+   */
   async function handleDelete() {
     if (!draft.id || !window.confirm("Are you sure you want to delete this note?")) return;
 
