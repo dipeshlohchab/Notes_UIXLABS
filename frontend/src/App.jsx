@@ -106,12 +106,13 @@ export default function App() {
 
           <div className="search-bar-row">
             <input
-              type="search"
+              type="text"
               className="search-input"
               placeholder="Search notes (e.g. 'FastAPI React')..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search notes"
+              autoComplete="off"
             />
             {query && (
               <button

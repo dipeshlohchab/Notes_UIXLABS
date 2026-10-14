@@ -114,16 +114,31 @@ body {
   border-color: var(--border-focus);
 }
 
+/* Hide native browser search cancel buttons */
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-results-button,
+.search-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
 .clear-search-btn {
   position: absolute;
-  right: 80px;
+  right: 76px;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   color: var(--text-dim);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
-  padding: 4px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .clear-search-btn:hover {
   color: var(--text-main);
